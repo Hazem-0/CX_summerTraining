@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:summer_training/cubits/securePassword_cubit.dart';
+import 'package:summer_training/cubits/securePassword_state.dart';
 import 'package:summer_training/screens/signup.dart';
 import 'package:summer_training/screens/welcome.dart';
 
@@ -88,37 +91,46 @@ class LoginScreen extends StatelessWidget {
                           SizedBox(
                             height: height / 20,
                           ),
-                          TextFormField(
-                            obscureText: false,
-                            keyboardType: TextInputType.visiblePassword,
-                            decoration: InputDecoration(
-                              filled: true,
-                              fillColor: Color(0x11A6A6FF),
-                              // focusColor:Color(0xA6A6A6FF) ,
+                          BlocBuilder<SecurepasswordCubit ,SecurepasswordState >(
+                              builder: (context, state) {
+                              return TextFormField(
+                                obscureText: context.watch<SecurepasswordCubit>().state.hidden,
+                                keyboardType: TextInputType.visiblePassword,
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: Color(0x11A6A6FF),
+                                  // focusColor:Color(0xA6A6A6FF) ,
 
-                              hintText: "Password",
-                              hintStyle: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 24),
-                              suffixIcon: IconButton(
-                                icon: Icon(Icons.remove_red_eye),
-                                onPressed: () => null,
-                              ),
-                              suffixIconColor: Color(0xAA333EFF),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(0xAA333EFF),
+                                  hintText: "Password",
+                                  hintStyle: TextStyle(
+                                      fontWeight: FontWeight.bold, fontSize: 24),
+                                  suffixIcon:IconButton(
+                                        icon: Icon(Icons.remove_red_eye ,
+                                        color: (!context.watch<SecurepasswordCubit>().state.hidden)? Color(0xAA333EFF):Colors.grey,),
+                                        onPressed: () {
+                                        context.read<SecurepasswordCubit>().toggleSecureSate();
+                                        },
+
+
+                                  ),
+                                  // suffixIconColor:
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color(0xAA333EFF),
+                                    ),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
                                 ),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'please Enter you password';
-                              }
-                            },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'please Enter you password';
+                                  }
+                                },
+                              );
+                            }
                           ),
                           SizedBox(
                             height: height / 15,

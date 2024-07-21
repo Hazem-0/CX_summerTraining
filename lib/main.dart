@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:summer_training/cubits/securePassword_cubit.dart';
+import 'package:summer_training/cubits/securePassword_state.dart';
 import 'package:summer_training/screens/login.dart';
 import 'package:summer_training/screens/welcome.dart';
 
@@ -19,7 +22,9 @@ class MyApp extends StatelessWidget {
 
         useMaterial3: true,
       ),
-      home:LoginScreen(),
+      home:BlocProvider(
+        create:  (_) => SecurepasswordCubit(),
+          child: LoginScreen()),
     );
   }
 }
